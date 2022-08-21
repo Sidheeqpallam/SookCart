@@ -1,0 +1,99 @@
+
+
+
+
+
+
+   
+<body>
+  <div class="container-fluid position-relative d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+      class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+  
+    {{>admin-sidebar}}
+
+
+
+    <div class="content">
+ 
+      {{>admin-nav}}
+
+ 
+
+      <div class="container-fluid pt-4 px-4">
+
+        <div class="row g-4">
+
+          <div class="col-sm-12 col-xl-12" >
+            <div class="bg-secondary rounded vh-100 p-4 " >
+              <h6 class="mb-4">Vendors Table</h6>
+              <table class="table table-hover">
+                 <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First Name</th>
+             
+                    <th scope="col">Email</th>     
+                      <th scope="col">Mobile Number</th>
+                      <th scope="col align-self-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each vendors}}
+<tr>
+                    <th scope="row">1</th>
+                    <td>{{this.Fname}}</td>
+                    <td>{{this.Email}}</td>
+                    <td>{{this.MobileNo}}</td>
+                    <td>
+                      
+                        <ul style="list-style-type: none;" class="row align-items-start ">
+                          
+                          <div class="col">
+                            <li><a href="#" class=" btn btn-sm btn-outline-warning col btn m-2">Edit</a></li>
+                          </div>
+                          <div class="col">
+                            {{#if block}}
+                            <li><a href="#" class=" btn btn-sm btn-outline-success col btn m-2">Unblock</a></li>
+                            {{else}}
+                            <li><a href="#" class=" btn btn-sm btn-outline-info col btn m-2">Block</a></li>
+                            {{/if}}
+                            
+                            
+                          </div>
+                          <div class="col">
+                            <li><a href="#" class=" btn btn-sm btn-outline-danger col btn m-2">Delete</a></li>
+                          </div>
+                          
+                        </ul>
+                     
+                    </td>
+                  </tr>
+                  {{/each}}
+                  
+                </tbody>
+              
+              </table>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+      <!-- Table End -->
+      {{>admin-foot}}
+    </div>
+  </div>
+
+
+
+</body>
+  
+

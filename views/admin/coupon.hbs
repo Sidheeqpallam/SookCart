@@ -1,0 +1,183 @@
+<body>
+  <div class="container-fluid position-relative d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+      class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+
+    {{>admin-sidebar}}
+
+
+
+
+    <div class="content">
+
+      {{>admin-nav}}
+
+
+
+      <div class="container-fluid pt-4 px-4">
+
+        <div class="row g-4">
+
+          <div class="col-sm-12 col-xl-12">
+            <div class="bg-secondary rounded vh-100 p-4">
+              <div class="d-flex justify-content-between">
+                <h6 class="mb-4">Coupon Table</h6>
+                <a data-bs-toggle="modal" data-bs-target="#modalAddCoupon"
+                  class="btn btn-sm btn-outline-success m-2">Add Coupon</a>
+              </div>
+              {{!-- =================== Add COUPON Modal start ========================= --}}
+              <div class="modal fade" id="modalAddCoupon" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+                tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content bg-secondary">
+                    <div class="modal-header border-0">
+                      <h5 class="modal-title text text-danger" id="exampleModalToggleLabel">Add Coupon</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body  border-0">
+                      <form action="/admin/addCoupon" method="post">
+
+
+                        <input type="text" class="form-control bg-dark border-0 mb-3" placeholder="Coupon Name"
+                          name="Name"  required>
+                        <input type="text" class="form-control bg-dark border-0 mb-3" placeholder="Coupon Code"
+                          name="Code" required>
+                        <input type="number" class="form-control bg-dark border-0 mb-3" placeholder="Coupon Percentage"
+                          name="Percentage" required>
+                        <input type="text" class="form-control bg-dark border-0 mb-3" placeholder="Coupon Discription"
+                          name="Discription" required>
+
+
+                    </div>
+                    <div class="modal-footer  border-0">
+                      <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              {{!-- =================== Add COUPON Modal end ========================= --}}
+
+
+
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Code</th>
+                    <th scope="col">Percentage</th>
+                    <th scope="col">Discription</th>
+
+                    <th></th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each coupons}}
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>{{this.Name}}</td>
+                    <td>{{this.Code}}</td>
+                    <td>{{this.Percentage}}</td>
+                    <td>{{this.Discription}}</td>
+
+                    <td class="">
+
+                      <ul style="list-style-type: none;" class="row align-items-start ">
+
+                        <div class="col">
+                          <li><a data-bs-toggle="modal" data-bs-target="#modalEditCoupon{{this._id}}"
+                              class=" btn btn-sm btn-outline-warning col btn m-2">Edit</a></li>
+                        </div>
+
+                        <div class="col">
+                          <li><a data-bs-toggle="modal" data-bs-target="#modalDeleteCoupon{{this._id}}"
+                              class=" btn btn-sm btn-outline-danger col btn m-2">Delete</a></li>
+                        </div>
+
+                      </ul>
+
+                    </td>
+                  </tr>
+
+                  {{!-- =================== EDIT COUPON Modal start ========================= --}}
+                  <div class="modal fade" id="modalEditCoupon{{this._id}}" aria-hidden="true"
+                    aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content bg-secondary">
+                        <div class="modal-header border-0">
+                          <h5 class="modal-title text text-danger" id="exampleModalToggleLabel">Edit Product</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body  border-0">
+                          <form action="/admin/editCoupon/{{this._id}}" method="post" >
+                            <input type="text" class="form-control bg-dark border-0 mb-2" placeholder="Model Name"
+                              name="Name" value="{{this.Name}}" required>
+
+                            <input type="text" value="{{this.Code}}" class="form-control bg-dark border-0 mb-2"
+                              placeholder="Brand Name" name="Brand" required>
+                            <input type="number" value="{{this.Percentage}}" class="form-control bg-dark border-0 mb-2"
+                              placeholder="Price" name="Price" required>
+
+
+
+                            <input type="text" value="{{this.Discription}}" class="form-control bg-dark border-0 mb-2"
+                              placeholder="Quantity" name="Quantity" required>
+                            
+                            
+                        </div>
+                        <div class="modal-footer  border-0">
+                          <button type="submit" class="btn btn-success">Edit</button>
+                        </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  {{!-- =================== EDIT COUPON Modal end ========================= --}}
+
+                  {{!-- =================== Delete COUPON modal start ========================= --}}
+                  <div class="modal fade" id="modalDeleteCoupon{{this._id}}" aria-hidden="true"
+                    aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content bg-secondary">
+                        <div class="modal-header border-0">
+                          <h5 class="modal-title text text-danger" id="exampleModalToggleLabel">Delete User</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body  border-0">
+                          <h3>Would you like to remove {{this.Name}}</h3>
+                        </div>
+                        <div class="modal-footer  border-0">
+                          <a href="/admin/deleteCoupon/{{this._id}}" class=" btn btn-sm btn-danger  btn m-2">Delete</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {{!-- =================== Delete COUPON modal end ========================= --}}
+
+                  {{/each}}
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- Table End -->
+      {{>admin-foot}}
+    </div>
+  </div>
+
+  {{#if existPopUp}}
+
+  {{/if}}
+
+</body>

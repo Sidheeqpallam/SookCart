@@ -1,0 +1,209 @@
+   
+<body>
+  <div class="container-fluid position-relative d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+      class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+  
+    {{>admin-sidebar}}
+
+  
+
+
+    <div class="content">
+  
+      {{>admin-nav}}
+
+ 
+
+      <div class="container-fluid pt-4 px-4">
+
+        <div class="row g-4">
+
+          <div class="col-sm-12 col-xl-12" >
+            <a   data-bs-toggle="modal" data-bs-target="#modalAddProduct" class="btn btn-sm btn-outline-success m-2">Add Product</a>
+             
+            
+
+<div class="col-12 row d-flex">
+                  {{#each products}}
+<div class="col-4 pb-2" >
+
+
+
+                                  <div class="card bg-secondary rounded h-100 p-4" >
+  <img src="/images/product/{{this.Images.[0]}}"  class="card-img-top " alt="..." >
+  <div class="card-body">
+    <h5 class="card-title">{{this.Name}}</h5>
+    <p class="card-text">{{this.Discription}}</p>
+    <p class="card-text">{{this.Heading2}}</p>
+ <a   data-bs-toggle="modal" data-bs-target="#modalAddProduct{{this._id}}" class="btn btn-sm btn-outline-warning m-2">Edit</a>
+ <a   data-bs-toggle="modal" data-bs-target="#modalDeleteProduct{{this._id}}" class="btn btn-sm btn-outline-danger m-2">Delete</a>
+  </div>
+</div>
+
+</div>
+
+ {{!-- =================== EDIT PRODUCT Modal start ========================= --}}
+            <div class="modal fade" id="modalAddProduct{{this._id}}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-secondary">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text text-danger" id="exampleModalToggleLabel" >Edit Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body  border-0">
+                <form action="/admin/editProduct/{{this._id}}" method="post"  enctype="multipart/form-data">
+                                <input type="text" class="form-control bg-dark border-0 mb-2" placeholder="Model Name" name="Name" value="{{this.Name}}" required>
+
+                <input type="text" value="{{this.Brand}}" class="form-control bg-dark border-0 mb-2" placeholder="Brand Name" name="Brand" required>
+                                <input type="number" value="{{this.Price}}" class="form-control bg-dark border-0 mb-2" placeholder="Price" name="Price" required>
+
+               
+                     <select name="Size" class="form-select mb-2" aria-label="Default select example"  required>
+                  <option value="" >Size</option>
+
+                <option {{#isEqual this.Size 'XS'}} selected {{else}} {{/isEqual}} value="XS">XS</option>
+                  <option {{#isEqual this.Size 'S'}} selected {{else}} {{/isEqual}} value="S">S</option> 
+                   <option {{#isEqual this.Size 'M'}} selected  {{else}}{{/isEqual}} value="M">M</option>
+                     <option {{#isEqual this.Size 'L'}} selected  {{else}}{{/isEqual}} value="L">L</option>
+                       <option {{#isEqual this.Size 'XL'}} selected  {{else}}{{/isEqual}} value="XL">XL</option>  
+                       
+                     
+                    </select>
+                    <select name="Colour" class="form-select mb-2" aria-label="Default select example"  required>
+                  <option value="" >Colour</option>
+
+                <option {{#isEqual this.Colour 'Red'}} selected {{else}} {{/isEqual}} value="Red">Red</option>
+                  <option {{#isEqual this.Colour 'Whight'}} selected {{else}} {{/isEqual}} value="Whight">Whight</option> 
+                   <option {{#isEqual this.Colour 'Black'}} selected {{else}} {{/isEqual}} value="Black">Black</option>
+                     <option {{#isEqual this.Colour 'Blue'}} selected {{else}} {{/isEqual}} value="Blue">Blue</option>
+                       <option {{#isEqual this.Colour 'Yellow'}} selected {{else}} {{/isEqual}} value="Yellow">Yellow</option>  
+                    </select>
+                      <input type="number" value="{{this.Quantity}}" class="form-control bg-dark border-0 mb-2" placeholder="Quantity" name="Quantity" required>
+                        <input type="number" value="{{this.Discount}}" class="form-control bg-dark border-0 mb-2" placeholder="Discount in %" name="Discount" required>
+            <input type="text" class="form-control bg-dark border-0 mb-2" value="{{this.Discription}}"  placeholder="Discription " name="Discription" required>
+                {{!-- <input type="file"  class="form-control bg-dark border-0 mb-2" placeholder="Images" name="product" multiple >
+                <p>The saved photographs will be erased if you add any more. wouldn't if not.</p> --}}
+                </div>
+                <div class="modal-footer  border-0">
+                    <button type="submit" class="btn btn-success" >Edit</button>
+                </div></form>
+                </div>
+            </div>
+            </div>
+         {{!-- =================== EDIT PRODUCT Modal end ========================= --}}
+
+
+
+
+
+
+
+
+
+
+
+{{!-- ===================  Delete product modal start ========================= --}}
+<div class="modal fade" id="modalDeleteProduct{{this._id}}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-secondary">
+      <div class="modal-header border-0">
+        <h5 class="modal-title text text-danger" id="exampleModalToggleLabel" >Delete User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body  border-0">
+       <h3>Would you like to remove {{this.Name}}</h3>
+      </div>
+      <div class="modal-footer  border-0">
+    <a href="/admin/deleteProduct/{{this._id}}" class=" btn btn-sm btn-danger  btn m-2">Delete</a>
+ </div>
+    </div>
+  </div>
+</div>
+         {{!-- ===================  Delete PRODUCT modal end ========================= --}}
+
+                    
+                  {{/each}}
+                  </div>
+              </div>
+              {{!-- =================== Add PRODUCT Modal start ========================= --}}
+            <div class="modal fade" id="modalAddProduct" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-secondary">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text text-danger" id="exampleModalToggleLabel" >Add Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body  border-0">
+                <form action="/admin/addProduct" method="post"  enctype="multipart/form-data">
+                                <input type="text" class="form-control bg-dark border-0 mb-2" placeholder="Model Name" name="Name"  required>
+
+                <input type="text" class="form-control bg-dark border-0 mb-2" placeholder="Brand Name" name="Brand" required>
+                                <input type="number" class="form-control bg-dark border-0 mb-2" placeholder="Price" name="Price" required>
+
+                <select name="Category" class="form-select mb-2" aria-label="Default select example" required >
+                  <option value="" selected>Category</option>
+                  {{#each categories}}
+
+                <option  value="{{this.Name}}">{{this.Name}}</option>
+
+                  {{/each}}
+                      
+                     
+                    </select>
+                     <select name="Size" class="form-select mb-2" aria-label="Default select example"  required>
+                  <option value="" selected>Size</option>
+
+                <option  value="XS">XS</option>
+                  <option  value="S">S</option> 
+                   <option  value="M">M</option>
+                     <option  value="L">L</option>
+                       <option  value="XL">XL</option>  
+                       
+                     
+                    </select>
+                    <select name="Colour" class="form-select mb-2" aria-label="Default select example"  required>
+                  <option value="" selected>Colour</option>
+
+                <option  value="Red">Red</option>
+                  <option  value="Whight">Whight</option> 
+                   <option  value="Black">Black</option>
+                     <option  value="Blue">Blue</option>
+                       <option  value="Yellow">Yellow</option>  
+                    </select>
+                      <input type="number" class="form-control bg-dark border-0 mb-2" placeholder="Quantity" name="Quantity" required>
+                        <input type="number" class="form-control bg-dark border-0 mb-2" placeholder="Discount in %" name="Discount" required>
+            <input type="text" class="form-control bg-dark border-0 mb-2" placeholder="Discription " name="Discription" required>
+                <input type="file"  class="form-control bg-dark border-0 mb-2" placeholder="Images" name="product" multiple required>
+                </div>
+                <div class="modal-footer  border-0">
+                    <button type="submit" class="btn btn-primary" >Add</button>
+                </div></form>
+                </div>
+            </div>
+            </div>
+         {{!-- =================== Add PRODUCT Modal end ========================= --}}
+
+
+              
+             
+          </div>
+
+        </div>
+        {{>admin-foot}}
+      </div>
+      <!-- Table End -->
+    </div>
+  </div>
+
+</body>
+  
+
+
+

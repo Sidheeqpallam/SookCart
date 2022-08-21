@@ -1,0 +1,120 @@
+<body>
+  <div class="container-fluid position-relative d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+      class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+
+    {{>admin-sidebar}}
+
+
+
+
+    <div class="content">
+
+      {{>admin-nav}}
+
+
+
+      <div class="container-fluid pt-4 px-4">
+
+        <div class="row g-4">
+
+          <div class="col-sm-12 col-xl-12" >
+            <div class="bg-secondary rounded p-4">
+              <h6 class="mb-4">Users Table</h6>
+              <table class="table table-hover" id="order-table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th>Customer</th>
+                    <th scope="col">Products</th>
+                    <th>Quantity</th>
+                    <th scope="col">Total <br>Price</th>
+                    <th scope="col">Payment <br>Method</th>
+                    {{!-- <th scope="col">Payment Method</th>
+                    <th scope="col">Status</th> --}}
+                    <th scope="col ">Delivery <br>Status</th>
+                    <th scope="col">Order Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each orders}}
+                  <tr>
+                    <td class="creat_index" scope="row">{{add @index 1}}</th>
+                    <td>{{this.userDetails.Name}}</td>
+                    <td>
+                      {{#each this.cart}}
+                      {{this.productDetails.Name}} <br>
+                      {{/each}}
+                      </td>
+                     <td >
+                      {{#each this.cart}}
+                      {{this.product.quantity}} <br>
+                      {{/each}}
+                      </td>
+
+
+                    <td>{{this.total}}</td>
+                    <td>{{this.paymentMethod}}</td>
+                    <td>
+                      <select class="form-select" aria-label="Default select example" id="{{this._id}}-select" onchange="statusChange('{{this._id}}', )">
+                        
+                        <option value="placed" {{#isEqual this.status 'placed'}}selected{{/isEqual}}>Placed</option>
+                        <option value="shipped" {{#isEqual this.status 'shipped'}}selected{{/isEqual}}>Shipped</option>
+                        <option value="out for delivery" {{#isEqual this.status 'out for delivery'}}selected{{/isEqual}}>Out for Delivery</option>
+                        <option value="delivered" {{#isEqual this.status 'delivered'}}selected{{/isEqual}}>Delivered</option>
+                      </select>
+                    </td>
+                     <td>{{this.date}}</td>
+                  </tr>
+                  {{/each}}
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      <!-- Table End -->
+      {{>admin-foot}}
+    </div>
+  </div>
+
+
+
+
+
+  <script>
+    $(document).ready(function () {
+      $('#order-table').DataTable();
+    });
+
+
+function statusChange(orderId) {
+  console.log(orderId); 
+  const status = document.getElementById(orderId +'-select').value
+  console.log(status)
+  axios.post('/admin/changeOrderStatus', {orderId, status}).then(e=>{
+    console.log(e)
+  })
+ 
+}
+
+
+  </script>
+
+
+
+
+
+
+
+
+</body>

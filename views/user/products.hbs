@@ -1,0 +1,165 @@
+<!-- Page Header Start -->
+<div class="container-fluid bg-secondary mb-5">
+    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+        <h1 class="font-weight-semi-bold text-uppercase mb-3">Our Shop</h1>
+        <div class="d-inline-flex">
+            <p class="m-0"><a href="/">Home</a></p>
+            <p class="m-0 px-2">-</p>
+            <p class="m-0">Shop</p>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<!-- Shop Start -->
+<div class="container-fluid pt-5">
+    <div class="row px-xl-5">
+
+
+
+        <div class="col-lg-9 col-md-12">
+            <div class="row pb-3">
+
+
+                {{#each products}}
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="card product-item border-0 mb-4">
+                        <div
+                            class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-fluid w-100" src="/images/product/{{this.Images.[0]}}" alt="">
+                        </div>
+                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
+                            <div class="d-flex justify-content-center">
+                                <h6>Rs. {{discountPrice this.Price this.Discount}}</h6>
+                                <h6 class="text-muted ml-2"><del>Rs. {{this.Price}}</del></h6>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-around bg-light border">
+                            <button type="button" class="btn btn-sm text-dark p-0" data-toggle="modal"
+                                data-target="#productModal{{this._id}}"><i
+                                    class="fas fa-eye text-primary mr-1"></i></button>
+
+
+
+
+                            <button onclick="addToWishList('{{this._id}}','{{../user._id}}')"
+                                class="btn btn-sm text-dart p-0"> <i
+                                    class="fas  fa-heart  text-primary mr-1"></i></button>
+
+
+
+                            <button onclick="addToCart('{{this._id}}','{{../user._id}}')"
+                                class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-shopping-cart text-primary mr-1"></i></button>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <!-- Modal -->
+                <div class="modal fade" id="productModal{{this._id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+
+                            <div class="modal-body">
+                                <!-- Shop Detail Start -->
+                                <div class="container-fluid py-5">
+                                    <div class="row px-xl-2">
+                                        <div class="col-lg-6 pb-2">
+                                            <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                                                <div class="carousel-inner border">
+                                                    {{#each this.Images}}
+                                                    <div class="carousel-item {{#if @first}} active {{/if}}">
+                                                        <img class="w-100 h-100" src="/images/product/{{this}}"
+                                                            alt="Image">
+                                                    </div>
+                                                    {{/each}}
+
+
+
+                                                </div>
+                                                <a class="carousel-control-prev" href="#product-carousel"
+                                                    data-slide="prev">
+                                                    <i class="fa fa-2x fa-angle-left text-dark"></i>
+                                                </a>
+                                                <a class="carousel-control-next" href="#product-carousel"
+                                                    data-slide="next">
+                                                    <i class="fa fa-2x fa-angle-right text-dark"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 pb-5">
+                                            <h3 class="font-weight-semi-bold">{{this.Name}}</h3>
+
+                                            <div class="d-flex mb-3">
+                                                <div class="text-primary mr-2">
+                                                    <small class="fas fa-star"></small>
+                                                    <small class="fas fa-star"></small>
+                                                    <small class="fas fa-star"></small>
+                                                    <small class="fas fa-star-half-alt"></small>
+                                                    <small class="far fa-star"></small>
+                                                </div>
+                                                <small class="pt-1">(50 Reviews)</small>
+                                            </div>
+                                               <div class="d-flex align-items-center">
+                                <h3 class="font-weight-semi-bold mb-4">Rs. {{discountPrice this.Price this.Discount}}</h6>
+                                <h6 class="text-muted font-weight-semi-bold ml-2"><del>Rs. {{this.Price}}</del></h6>
+                            </div>
+                                            <p class="mb-4">{{this.Discription}}</p>
+
+                                            <div class="d-flex align-items-center mb-4 pt-2">
+                                                
+                                                <button class="btn btn-primary px-3"><i
+                                                        class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
+                                            </div>
+                                           
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- Shop Detail End -->
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                {{/each}}
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+        <!-- Shop Product End -->
+    </div>
+</div>
+<!-- Shop End -->
+{{!-- cdn of axios --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+
+
+<script src="/javascripts/js.js"></script>
+
+<style>
+ 
+
+.modal-dialog {
+ 
+          width: 60vw;
+ 
+        }
+ 
+</style>

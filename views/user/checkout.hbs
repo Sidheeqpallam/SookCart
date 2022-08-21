@@ -1,0 +1,315 @@
+<!-- Page Header Start -->
+<div class="container-fluid bg-secondary mb-5">
+    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+        <h1 class="font-weight-semi-bold text-uppercase mb-3">Checkout</h1>
+        <div class="d-inline-flex">
+            <p class="m-0"><a href="/">Home</a></p>
+            <p class="m-0 px-2">-</p>
+            <p class="m-0">Checkout</p>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+
+<!-- Checkout Start -->
+<div class="container-fluid">
+
+    <div class="row px-xl-5 justify-content-around">
+        <div class="col-lg-5">
+            <div class="container-fluid">
+                <div class="col-12 row">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary mb-3" data-toggle="modal"
+                        data-target="#exampleModal"><i class="fa fa-edit"></i>{{#if address}} Ship to different Address
+                        {{else}} Add Address {{/if}}
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                               
+                                <div class="modal-body">
+                                    <form class=" mx-auto border p-5 mt-5" action="/addAddress" method="post"
+                                        id="addressForm">
+                                        <h4 class="font-weight-semi-bold mb-4">Add New Address</h4>
+                                        <div class="row">
+                                            <div class="col-md-6 form-group">
+                                                <label>Name</label>
+                                                <input class="form-control" type="text" name="name" id="name">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label>Mobile No</label>
+                                                <input class="form-control" type="text" name="number" id="number">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label>Address Line 1</label>
+                                                <input class="form-control" type="text" name="address1" id="address1">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label>Address Line 2</label>
+                                                <input class="form-control" type="text" name="address2" id="address2">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label>District</label>
+                                                <input class="form-control" type="text" name="district" id="district">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label>State</label>
+                                                <input class="form-control" type="text" name="state" id="state">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label>Country</label>
+                                                <input class="form-control" type="text" name="country" id="country">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label>PIN Code</label>
+                                                <input class="form-control" type="number" name="pinCode" id="pinCode">
+                                            </div>
+                                        </div>
+
+                                        <!-- Submit button -->
+                                        <div class="col mt-5 d-flex">
+                                            <button form="addressForm" type="submit"
+                                                class="btn btn-primary btn-block col-4 mx-auto">Add
+                                                Address</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </form>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="row">
+                        <div class="card-header bg-secondary border-0 rounded-1 mb-3">
+                            <h4 class="font-weight-semi-bold m-0">SELECT ADDRESS</h4>
+                        </div>
+                        {{#each address}}
+                        <div class="col-12 mb-3 p-0">
+                            <div class="row">
+                                <div class="col-sm-12 ">
+                                    <label style="width: 100%;">
+                                        <div class="card">
+                                            <div class="card-body shadow">
+                                                <input type="radio" name="address" value="{{@index}}" id="" {{#if @first}} checked {{/if}}>
+                                                <h5 class="card-title">{{this.name}} <br>{{this.address1}}</h5>
+                                                <p class="card-text">{{this.address2}},{{this.district}}
+                                                    <br>{{this.state}},
+                                                    {{this.country}} <br>PIN:{{this.pinCode}} <br>{{this.number}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card border-secondary mb-5">
+                <div class="card-header bg-secondary border-0">
+                    <h4 class="font-weight-semi-bold m-0">Order Total</h4>
+                </div>
+                <div class="card-body">
+                    <h5 class="font-weight-medium mb-3">Products</h5>
+                    {{#each cart}}
+                    <div class="d-flex justify-content-between">
+                        <p>{{this.productDetails.Name}}</p>
+                        <p>Rs. {{this.totalAmount}}</p>
+                    </div>
+                    {{/each}}
+
+                    <hr class="mt-0">
+                    <div class="d-flex justify-content-between mb-3 pt-1">
+                        <h6 class="font-weight-medium">Subtotal</h6>
+                        <h6 class="font-weight-medium">Rs. {{total.totalAmount}}</h6>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="font-weight-medium">Coupon</h6>
+                        <h6 class="font-weight-medium">Rs. {{#if coupon}}{{discount total.totalAmount coupon.Percentage}}{{else}}00{{/if}}</h6>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="font-weight-medium">Shipping</h6>
+                        <h6 class="font-weight-medium">Rs. 00</h6>
+                    </div>
+                </div>
+                <div class="card-footer border-secondary bg-transparent">
+                    <div class="d-flex justify-content-between mt-2">
+                        <h5 class="font-weight-bold">Total</h5>
+                        <h5 class="font-weight-bold"  >Rs. <span id="totalAmount">
+                            {{#if coupon}}{{discountPrice total.totalAmount coupon.Percentage}}{{else}}{{total.totalAmount}}{{/if}} 
+                        </span> </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card border-secondary mb-5">
+                <div class="card-header bg-secondary border-0">
+                    <h4 class="font-weight-semi-bold m-0">Payment</h4>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <div>
+                            <input type="radio" name="payment" id="COD" value="COD" checked>
+                            <label for="directcheck">Cash-On-Delivery</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <input type="radio" name="payment" id="UPI" value="UPI">
+                            <label for="paypal">UPI</label>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div>
+                            <input type="radio" name="payment" id="netBanking" value="netBanking">
+                            <label for="banktransfer">Net Banking</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer border-secondary bg-transparent">
+                    <button type="" onclick="placeOrder()" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Place
+                        Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .error {
+     color: #ff0000;
+     }
+</style>
+<!-- Checkout End -->
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+$(document).ready(function () {
+    $("#addressForm").validate({
+      rules: {
+        name: {
+          required: true,
+          minlength: 4
+        },
+        number: {
+          number:true,
+          minlength:10,
+          maxlength:10,
+          required: true
+        },
+        address1: {
+            required: true,
+            minlength: 4
+            },
+         address2: {
+             minlength: 4,
+            required: true
+        },
+        district:{
+            required: true,
+            minlength: 4
+        },
+        state: {
+            required: true,
+            },
+         country: {
+            required: true,
+        },
+        pinCode:{
+            number:true,
+            minlength:6,
+            maxlength:6,
+            required: true
+        }
+
+        
+      }
+    })
+  })
+    
+  
+    const razorPayment = (data) => {
+        console.log(data)
+        var options = {
+            "key": "rzp_test_8TwMSnY9TgrI3q", // Enter the Key ID generated from the Dashboard
+            "amount": data.amount , // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "name": "SookCart",
+            "description": "Test Transaction",
+            "image": "https://example.com/your_logo",
+            "order_id": data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler": function (response) {
+                verifyPayment(response, data);
+            },
+            "prefill": {
+                "name": "Gaurav Kumar",
+                "email": "gaurav.kumar@example.com",
+                "contact": "9999999999"
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.on('payment.failed', function (response) {
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+            verifyPayment(response, data);
+        });
+        rzp1.open();
+
+    }
+
+    const placeOrder = async () => {
+        let paymentMethod = $('input[type="radio"][name="payment"]:checked').val()
+        let address = $('input[type="radio"][name="address"]:checked').val()
+        try {
+            const res = await axios.post('/placeOrder', {
+                paymentMethod: paymentMethod,
+                address: address
+            }).then((e) => {
+                if (paymentMethod === "COD") {
+                    location.href = `/orderSuccess/${e.data.order._id}`;
+                } else {
+                    console.log(e)
+                    razorPayment(e.data.order)
+                }
+
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const verifyPayment = async (payment, order) => {
+        try {
+            console.log(payment, order)
+            const res = await axios.post('/verifyPayment', {
+                payment,
+                order
+            }).then((e) => {
+                console.log(e)
+                if(e.data.status){
+                location.href = `/orderSuccess/${order.receipt}`;
+                }else{
+                    swal('Unfortunately!', 'Something error occured!','error');
+                }
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    }
+</script>

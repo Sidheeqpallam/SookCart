@@ -1,0 +1,299 @@
+
+
+<body>
+    <div class="container-fluid position-relative d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        {{>admin-sidebar}}
+        
+
+
+
+
+        <!-- Content Start -->
+        <div class="content">
+            
+
+      {{>admin-nav}}
+        
+    
+
+            <!-- Sale & Revenue Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-6 col-xl-3" >
+                        <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                            <i class="fa fa-chart-line fa-3x text-primary"></i>
+                            <div class="ms-3">
+                                <p class="mb-2">Today Sale </p>
+                                <h6 class="mb-0">Rs. {{data.totalSaleToday}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                            <i class="fa fa-chart-bar fa-3x text-primary"></i>
+                            <div class="ms-3">
+                                <p class="mb-2">Total Sale</p>
+                                <h6 class="mb-0">Rs. {{data.totalSaleAmount}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                            <i class="fa fa-chart-area fa-3x text-primary"></i>
+                            <div class="ms-3">
+                                <p class="mb-2">Today Profit</p>
+                                <h6 class="mb-0">Rs. {{data.totalProfitToday}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                            <i class="fa fa-chart-pie fa-3x text-primary"></i>
+                            <div class="ms-3">
+                                <p class="mb-2">Total Profit</p>
+                                <h6 class="mb-0">Rs. {{data.totalProfit}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Sale & Revenue End -->
+
+
+            <!-- Sales Chart Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-12 col-xl-6" >
+                        <div class="bg-secondary text-center rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Products & Sale</h6>
+                               
+                            </div>
+                            <canvas id="productChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-secondary text-center rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Sales & Profit</h6>
+                               
+                            </div>
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Sales Chart End -->
+
+
+            <!-- Recent Sales Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Recent Sales</h6>
+                        <a href="/admin/orders">Show All</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+                                <tr class="text-white">
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Customer</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each data.recentOrders}}
+                                <tr>
+                                    <td>{{this.date}}</td>
+                                    <td> {{#each this.cart}}
+                      {{this.productDetails.Name}} <br>
+                      {{/each}}</td>
+                                    <td>{{this.userDetails.Name}}</td>
+                                    <td>{{#each this.cart}}
+                      {{this.product.quantity}} <br>
+                      {{/each}}</td>
+                                    <td>{{this.total}}</td>
+                                    <td>{{this.status}}</td>
+                                </tr>
+                                {{/each}}
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Recent Sales End -->
+
+
+            
+
+
+            
+            {{>admin-foot}}
+
+            <!-- Footer End -->
+        </div>
+        <!-- Content End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  
+
+<script>
+
+
+
+document.addEventListener("DOMContentLoaded", chartIt)
+//====== variables of sales and profit chart
+const xLabels1 = [];
+const yLabelsSale1 = [];
+const yLabelsPro1 = [];
+
+//========= variables of products and sales chart
+
+const xLabels2 =[];
+const yLabelspro2 = []
+const yLabelsSale2 = []
+
+
+
+async function chartIt(){
+
+//================ data fetching =============
+    var e =await axios.get('/admin/chartData')
+    console.table(e.data)
+    const saleContent = e.data.sale
+    saleContent.map((curr) => {
+        xLabels1.push(curr.date)
+        yLabelsSale1.push(curr.total)
+        yLabelsPro1.push(Math.round(curr.total / 3.3) )
+    })
+    const proContent = e.data.product.product
+        proContent.map((curr) => {
+            xLabels2.push(curr._id)
+            yLabelspro2.push(curr.count )
+
+        })
+        const proSaleContent = e.data.product.sales
+        proSaleContent.map((curr) => {
+            yLabelsSale2.push(curr.count )
+        })
+
+
+//=========== chart 2 start =========== //
+
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: xLabels1,
+        datasets: [{
+            label: 'Sales',
+            data: yLabelsSale1,
+            backgroundColor: [
+                'rgba( 0,255, 0, .5)'
+                
+            ],
+            borderColor: 
+              [ 'rgba( 0, 255, 0, .5)' ]
+            
+            ,
+            borderWidth: 1
+        },
+        {
+            label: 'Profit',
+            data: yLabelsPro1,
+            backgroundColor: [
+                'rgba(255, 0, 0, .5)'
+                
+            ],
+            borderColor: 
+              [ 'rgba(255, 0, 0, .5)' ]
+            
+            ,
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+    });
+
+//=========== chart 2 end =========== //
+
+//=========== chart 1 start =========== //
+
+    const ctx2 = document.getElementById('productChart').getContext('2d');
+    const myChart2 = new Chart(ctx2, {
+    type: 'line',
+    data: {
+        labels: xLabels2,
+        datasets: [{
+            label: 'Sales',
+            data: yLabelsSale2,
+            backgroundColor: [
+                'rgba(255, 0, 0, .5)'
+                
+            ],
+            borderColor: 
+              [ 'rgba(255, 0, 0, 0)' ]
+            
+            ,
+            borderWidth: 5
+        },
+        {
+            label: 'Product',
+            data: yLabelspro2,
+            backgroundColor: [
+                'rgba(0, 255, 0, .5)'
+                
+            ],
+            borderColor: 
+              [ 'rgba(255, 0, 0, .0)' ]
+            
+            ,
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+    });
+//=========== chart 2 end =========== //
+
+   
+}
+
+// =================================================
+
+
+
+
+
+
+</script>
+</body>

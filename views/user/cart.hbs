@@ -1,0 +1,145 @@
+
+ 
+ 
+ <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Shopping Cart</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="/">Home</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Shopping Cart</p>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Cart Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-8 table-responsive mb-5">
+                <table class="table table-bordered text-center mb-0">
+                    <thead class="bg-secondary text-dark">
+                        <tr>
+                            <th></th>
+                            <th>Products</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle">
+                        {{#each cart}}
+                        <tr>
+                            <td class="align-middle"><img class="mr-2" src="/images/product/{{this.productDetails.Images.[0]}}" alt="" style="width: 50px;"></td>
+                            <td class="align-middle" >{{this.productDetails.Name}}</td>
+                            <td class="align-middle" id="{{this.productDetails._id}}-price">Rs. {{this.productDetails.DiscountPrice}}</td>
+                            <td class="align-middle">
+                                <div class="input-group quantity mx-auto" style="width: 100px;">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-sm btn-primary btn-minus" onclick="changeQuantity('{{../user._id}}','{{this._id}}','{{this.productDetails._id}}','{{this.productDetails.DiscountPrice}}', -1)">
+                                        <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <input type="text" class="form-control form-control-sm bg-secondary text-center" id="{{this.productDetails._id}}" value="{{this.product.quantity}}" disabled>
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-sm btn-primary btn-plus" onclick="changeQuantity('{{../user._id}}','{{this._id}}','{{this.productDetails._id}}','{{this.productDetails.DiscountPrice}}',1)">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle">Rs. <span id="{{this.productDetails._id}}-total">{{total this.product.quantity this.productDetails.DiscountPrice}}</span></td>
+                            <td class="align-middle"><button class="btn btn-sm btn-primary"><i onclick="deleteCartItem('{{this.product.id}}')" class="fa fa-times"></i></button></td>
+                        </tr>
+                        
+                        
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-4 ">
+              <div class="mb-4">
+                <div class="input-group">
+                        <input type="text" class="form-control p-4" placeholder="Coupon Code" id="code"  >
+                        <div class="input-group-append">
+                            <button class="btn btn-primary"  onclick="coupon()">Apply Coupon</button>
+                        </div>
+                    </div>
+              </div>
+                    
+              
+                <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Cart Summary</h4>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3 pt-1">
+                            <h6 class="font-weight-medium">Subtotal</h6>
+                            <h6 class="font-weight-medium">Rs. <span id="subTotal">{{subTotal.totalAmount}}</span> </h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Coupon</h6>
+                            <h6 class="font-weight-medium">Rs. <span id="couponPrice">00</span> </h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Shipping</h6>
+                            <h6 class="font-weight-medium">Rs. 00</h6>
+                        </div>
+                    </div>
+                    <div class="card-footer border-secondary bg-transparent">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5 class="font-weight-bold">Total</h5>
+                            <h5 class="font-weight-bold" >Rs. <span id="grandTotal">{{subTotal.totalAmount}}</span></h5>
+                        </div>
+                        <a href="/checkout">
+                        <button class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Cart End -->
+
+
+
+
+<script src="/javascripts/js.js"></script>
+ 
+<script>
+   
+    const changeQuantity=(userId,cartId, proId,price, count)=>{
+        const quantity = parseInt(document.getElementById(proId).value)
+       const Price = parseInt(price)
+        $.ajax({
+            url: '/changeCartQuantity',
+            data: {
+                user : userId,
+                cart: cartId,
+                product : proId,
+                count: count,
+                quantity : quantity
+            },
+            method: 'post',
+            success : (response)=>{
+                if(response.response.removeProduct){
+                    alert('product removed from cart')
+                                       //swal("This Product is deleted",'','info')
+                    location.reload()
+                }else{
+                    document.getElementById('cartCount').innerHTML = parseInt(document.getElementById('cartCount').innerHTML) + count
+                    document.getElementById(proId).value = quantity + count
+                    document.getElementById(proId + '-total').innerHTML =  Price * (quantity+count);
+                    document.getElementById('subTotal').innerHTML = response.response.total.totalAmount;
+                    document.getElementById('grandTotal').innerHTML = response.response.total.totalAmount 
+                }
+                console.log(response)
+            }
+        })
+    }
+</script>
+ 

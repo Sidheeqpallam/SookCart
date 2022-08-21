@@ -1,0 +1,137 @@
+<body>
+  <div class="container-fluid position-relative d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+      class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+
+    {{>admin-sidebar}}
+
+
+
+
+    <div class="content">
+
+      {{>admin-nav}}
+
+
+
+      <div class="container-fluid pt-4 px-4">
+
+        <div class="row g-4">
+
+          <div class="col-sm-12 col-xl-12" >
+            <a data-bs-toggle="modal" data-bs-target="#modalAddBanner" class="btn btn-sm btn-outline-success m-2">Add
+              Banner</a>
+
+
+
+            <div class="col-12 row d-flex">
+              {{#each banner}}
+              <div class="col-6 pb-4">
+
+
+
+                <div class="card bg-secondary rounded h-100 p-4">
+                  <img src="/images/banner/{{this.Image}}" class="card-img-top " alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">{{this.Heading1}}</h5>
+                    <p class="card-text">{{this.Heading2}}</p>
+                    {{!-- <a href="/admin/editBanner/{{this._id}}"
+                      class=" btn btn-sm btn-outline-warning col btn m-2">Edit</a> --}}
+                    <a  data-bs-toggle="modal" data-bs-target="#modalDeleteBanner{{this._id}}" 
+                      class=" btn btn-sm btn-outline-danger col btn m-2">Delete</a>
+                  </div>
+                </div>
+
+              </div>
+{{!-- ===================  Delete BANER modal start ========================= --}}
+<div class="modal fade" id="modalDeleteBanner{{this._id}}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-secondary">
+      <div class="modal-header border-0">
+        <h5 class="modal-title text text-danger" id="exampleModalToggleLabel" >Delete User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body  border-0">
+       <h3>Would you like to remove {{this.Name}}</h3>
+      </div>
+      <div class="modal-footer  border-0">
+    <a href="/admin/deleteBanner/{{this._id}}" class=" btn btn-sm btn-danger  btn m-2">Delete</a>
+ </div>
+    </div>
+  </div>
+</div>
+         {{!-- ===================  Delete BANNER modal end ========================= --}}
+
+              {{/each}}
+            </div>
+          </div>
+          {{!-- =================== Add Category Modal start ========================= --}}
+          <div class="modal fade" id="modalAddBanner" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+            tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content bg-secondary">
+                <div class="modal-header border-0">
+                  <h5 class="modal-title text text-danger" id="exampleModalToggleLabel">Add Banner</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body  border-0">
+                  <form action="/admin/addBanner" method="post" enctype="multipart/form-data">
+
+                    <input type="text" class="form-control bg-dark border-0 mb-2" placeholder="First Heading" required
+                      name="Heading1">
+                    <input type="text" class="form-control bg-dark border-0 mb-2" placeholder="Secont Heading" required
+                      name="Heading2">
+                    <input type="file" class="form-control bg-dark border-0 mb-2" placeholder="Image" name="banner" required>
+                </div>
+                <div class="modal-footer  border-0">
+                  <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          {{!-- =================== Add Category Modal end ========================= --}}
+
+
+
+
+        </div>
+
+      </div>
+      {{>admin-foot}}
+    </div>
+    <!-- Table End -->
+  </div>
+  </div>
+
+</body>
+
+
+
+
+<script>
+  function deleteBanner(bannerId) {
+    return new Promise((resolve, reject) => {
+      db.get().collection(collection.BANNER_COLLECTION).deleteOne({ _id: objectId(bannerId) }).then(res => {
+
+        if (fs.existsSync('public/images/banner/' + bannerId + '.jbg')) {
+          console.log('exdst');
+          fs.unlink('public/images/banner/' + bannerId + '.jpg', () => { })
+        }
+        resolve(res)
+      })
+    })
+  }
+
+
+  const axios = require('axios')
+  axios.get('/admin/deleteBanner/:id',).then(data => {
+
+  })
+</script>

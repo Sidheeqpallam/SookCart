@@ -1,0 +1,219 @@
+<div class="container-fluid my-5 pt-5 px-xl-5 justify-content-center">
+    <div class=" card card-1 ">
+        <div class="card-header bg-white ">
+            <div class="media flex-sm-row flex-column-reverse justify-content-between  ">
+                <div class="col my-auto">
+                    <h4 class="mb-0">Thanks for your Order,<span class="change-color">{{user.Name}}</span> !
+                    </h4>
+                </div>
+                <div class="col-auto text-center  my-auto pl-0 pt-sm-4"> <img
+                        class="img-fluid my-auto align-items-center mb-0 pt-3" src="/img/orderSuccess.png" width="115"
+                        height="115">
+                    <p class="mb-4 pt-0 Glasses">A perfect place to spend on your Fashion</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row justify-content-between mb-3">
+                <div class="col-auto">
+                    <h6 class="color-1 mb-0 change-color">Receipt</h6>      
+                </div>
+                <div class="col-auto  "> <small>Receipt Voucher : {{order._id}}</small> </div>
+            </div>
+            {{#with order}}
+            
+            <div class="row">
+                <div class="col">
+                    <div class="card card-2">
+                        <div class="card-body">
+                            {{#each cart}}
+                            <div class="media">
+                                <div class="sq align-self-center "> <img
+                                        class="img-fluid  my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                        src="/images/product/{{this.productDetails.Images.[0]}}" width="100" height="100" />
+                                </div>
+                                <div class="media-body my-auto text-right">
+                                    <div class="row  my-auto flex-column flex-md-row">
+                                        <div class="col my-auto">
+                                            <h6 class="mb-0"> {{this.productDetails.Name}}</h6>
+                                        </div>
+                                        <div class="col-auto my-auto"> <small>Brand: {{this.productDetails.Brand}}</small></div>
+                                        <div class="col my-auto"> <small>Size : {{this.productDetails.Size}}</small></div>
+                                        <div class="col my-auto"> <small>Quantity : {{this.product.quantity}}</small></div>
+                                        <div class="col my-auto">
+                                            <h6 class="mb-0">Rs.{{this.totalAmount}}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/each}}
+                            <hr class="my-3 ">
+                            <div class="row">
+                                <div class="col-md-3 mb-3"> <small> Track Order <span><i class=" ml-2 fa fa-refresh"
+                                                aria-hidden="true"></i></span></small> </div>
+                                <div class="col mt-auto">
+                                    <div class="progress my-auto">
+                                        <div class="progress-bar progress-bar  rounded"  
+                                            aria-valuenow="25" style="width: 12%"
+                                          
+                                            role="progressbar"  aria-valuemin="0" aria-valuemax="100">
+                                        </div>
+                                    </div>
+                                    <div class="media row justify-content-between ">
+                                        <div class="col-auto text-right"><span> <small
+                                                    class="text-right mr-sm-2">processing</small> <i
+                                                    class="fa fa-circle active"></i> </span></div>
+                                        <div class="col-auto text-right"><span> <small
+                                                    class="text-right mr-sm-2">shipped</small> <i
+                                                    class="fa fa-circle active"></i> </span></div>
+                                        <div class="flex-col"> <span> <small class="text-right mr-sm-2">Out for
+                                                    delivary</small><i class="fa fa-circle active"></i></span></div>
+                                        <div class="col-auto flex-col-auto"><small
+                                                class="text-right mr-sm-2">Delivered</small><span> <i
+                                                    class="fa fa-circle"></i></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/with}}
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="row justify-content-between">
+                        <div class="col-auto">
+                            <p class="mb-1 text-dark"><b>Shipping Address</b></p>
+                        </div>
+                        {{#with address}}
+                        <div class="flex-sm-col text-right col">
+                            <p class="mb-1"><b>Name</b></p>
+                        </div>
+                        <div class="flex-sm-col col-auto">
+                            <p class="mb-1">{{name}}</p>
+                        </div>
+                    </div>
+                    <div class="row justify-content-between">
+                        <div class="flex-sm-col text-right col">
+                            <p class="mb-1"><b>Address Line 1</b></p>
+                        </div>
+                        <div class="flex-sm-col col-auto">
+                            <p class="mb-1">{{address1}}</p>
+                        </div>
+                    </div>
+                    <div class="row justify-content-between">
+                        <div class="flex-sm-col text-right col">
+                            <p class="mb-1"><b>Address Line 2</b></p>
+                        </div>
+                        <div class="flex-sm-col col-auto">
+                            <p class="mb-1">{{address2}}</p>
+                        </div>
+                    </div>
+                    <div class="row justify-content-between">
+                        <div class="flex-sm-col text-right col">
+                            <p class="mb-1"><b>District</b></p>
+                        </div>
+                        <div class="flex-sm-col col-auto">
+                            <p class="mb-1">{{district}}</p>
+                        </div>
+                    </div>
+                    <div class="row justify-content-between">
+                        <div class="flex-sm-col text-right col">
+                            <p class="mb-1"><b>State</b></p>
+                        </div>
+                        <div class="flex-sm-col col-auto">
+                            <p class="mb-1">{{state}}</p>
+                        </div>
+                    </div>
+                    <div class="row justify-content-between">
+                        <div class="flex-sm-col text-right col">
+                            <p class="mb-1"><b>Country</b></p>
+                        </div>
+                        <div class="flex-sm-col col-auto">
+                            <p class="mb-1">{{country}}</p>
+                        </div>
+                    </div>
+                    <div class="row justify-content-between">
+                        <div class="flex-sm-col text-right col">
+                            <p class="mb-1"><b>Pin Code</b></p>
+                        </div>
+                        <div class="flex-sm-col col-auto">
+                            <p class="mb-1">{{pinCode}}</p>
+                        </div>
+                    </div>
+                </div>
+                {{/with}}
+            </div>
+            <div class="row invoice ">
+               
+                <button class="btn btn-primary" onclick="swal('The features will shortly be implemented!')"
+                 {{!-- onclick="//downloadInvoice('{{order}}')" --}}
+                 >Download Invoice</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/easyinvoice/dist/easyinvoice.min.js"></script>
+
+
+<script>
+    const downloadInvoice = function (order) {
+            console.log(order)
+        var data = {
+            //"documentTitle": "RECEIPT", //Defaults to INVOICE
+            "currency": "USD",
+            "taxNotation": "vat", //or gst
+            "marginTop": 25,
+            "marginRight": 25,
+            "marginLeft": 25,
+            "marginBottom": 25,
+            "logo": "https://www.easyinvoice.cloud/img/logo.png", //or base64
+            //"logoExtension": "png", //only when logo is base64
+            "sender": {
+                "company": "SookCart",
+                "address": "123 Thrissur,Kerala,India",
+                "zip": "676532",
+                "city": "Thrissur",
+                "country": "India"
+                //"custom1": "custom value 1",
+                //"custom2": "custom value 2",
+                //"custom3": "custom value 3"
+            },
+            "client": {
+                "Company": "address.name",
+                // "Address": order.deliveryDetails.address1,
+                //"Address": order.deliveryDetails.address2,
+               // "District": order.deliveryDetails.district,
+               // "State": order.deliveryDetails.state,
+               // "Country": order.deliveryDetails.country,
+               // "Pin-Code": order.deliveryDetails.pinCode,
+            },
+            "invoiceNumber": "2020.0001",
+            "invoiceDate": "05-01-2020",
+            "products": [
+                {
+                   // "Product": order.orderItems.product.name,
+                    //"quantity": order.orderItems.quantity,
+                    "description": "Test1",
+                    "tax": 6,
+                    "price": 33.87
+                },
+                {
+                    "quantity": "4",
+                    "description": "Test2",
+                    "tax": 21,
+                    "price": 10.45
+                }
+            ],
+            "bottomNotice": "Kindly pay your invoice within 15 days."
+        };
+    easyinvoice.createInvoice(data, function (result) {
+        // The response will contain a base64 encoded PDF file
+      console.log('PDF base64 string: ', result.pdf);
+        
+     easyinvoice.download('myInvoice.pdf', result.pdf);
+
+          });
+    }
+</script>-

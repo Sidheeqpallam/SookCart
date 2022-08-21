@@ -1,0 +1,175 @@
+<!-- Section: Design Block -->
+<section class="">
+  <!-- Jumbotron -->
+  <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
+    <div class="container">
+      <div class="row gx-lg-5 align-items-center">
+        <div class="col-lg-6 mb-5 mb-lg-0">
+          <h1 class="my-5 display-3 fw-bold ls-tight">
+            The best offer <br />
+            <span class="text-primary">for your business</span>
+          </h1>
+          <p style="color: hsl(217, 10%, 50.8%)">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Eveniet, itaque accusantium odio, soluta, corrupti aliquam
+            quibusdam tempora at cupiditate quis eum maiores libero
+            veritatis? Dicta facilis sint aliquid ipsum atque?
+          </p>
+        </div>
+
+        <div class="col-lg-6 mb-5 mb-lg-0">
+          <div class="card">
+            <div class="card-body py-5 px-md-5">
+              <form action="signIn" method="post" id="signInForm">
+                <!-- 2 column grid layout with text inputs for the first and last names -->
+                <div class="row">
+                  <div class=" d-flex align-items-center justify-content-center">
+            <h1 class="text text-primary">welcome</h2>
+          </div> 
+                </div>
+ {{#if status.invalidPassword}}
+            <p class="text text-danger">Invalid Password!</p>
+            {{/if}}
+                {{#if status.vendorNotFound}}
+            <p class="text text-danger">Vendor does not exist!</p>
+            {{/if}}
+             {{#if status.vendor.block}}
+            <p class="text text-danger">Sorry! Your Account is Blocked!</p>
+            {{/if}}
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                   <label class="form-label" for="MobileNO">Mobile Number</label>
+                  <input type="number"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+             maxlength="10" id="MobileNO" class="form-control  border-primary" name="MobileNo" value="8078858018"/>
+                
+                </div>
+
+                <!-- Password input -->
+                  <label class="form-label" for="form3Example4">Password</label>
+
+                <div class="form-outline mb-4 input-group">
+                  <input type="password" id="password" class="form-control border-primary" name="Password" value="vendor"/>
+                                    <span class=" btn btn-outline-primary d-flex align-items-center " onclick="password_show_hide();">
+                    <i class="fas fa-eye" id="show_eye"></i>
+                    <i class="fas fa-eye-slash d-none" id="hide_eye"></i>
+                  </span>
+ </div>
+                
+
+              
+               
+
+                <!-- Submit button -->
+                <button type="submit" class="col-12 btn btn-primary btn-block mb-4">
+                  Sign in
+                </button>
+
+              
+              </form>
+               <div class="divider d-flex align-items-center justify-content-center">
+                 <div class="  my-4">
+                <p class="text-center fw-bold mx-3 mb-0 text-muted ">OR</p>
+              </div>
+               </div>
+
+       
+{{!-- form of signIn with mobileNo. usign otp verification  --}}
+        <form action="signInWithOtp" method="post" id="signInWithOtp">
+          <input type="number" id="mobileNo" class="form-control form-control border-primary" name="MobileNo"
+            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+            maxlength="10" placeholder="Mobile Number" />
+          <div class=" d-flex align-items-center justify-content-center mt-4">
+            <button type="submit" class="btn btn-primary btn btn-block" style="background-color: #7e28cf;">Sign in
+              with OTP</button>
+
+          </div>
+        </form>
+
+
+
+
+
+              <div class="pt-3">
+          <p class="mb-0">Don't have an account? <a href="/vendor/signUp" class="text-danger-50  fw-bold">Sign Up</a>
+          </p>
+        </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Jumbotron -->
+</section>
+<!-- Section: Design Block -->
+
+<style>
+ .error {
+    color: red;
+  }
+ /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+</style>
+
+<script>
+  $(document).ready(function () {
+
+    $("#signInForm").validate({
+      rules: {
+        MobileNo: {
+          required: true
+          
+        },
+        Password: {
+          required: true
+        }
+      },
+      errorPlacement: function ( error, element ) {
+
+        if(element.parent().hasClass('input-group')){
+          error.insertAfter( element.parent() );
+        }else{
+          	error.insertAfter( element );
+        }
+
+},
+      messages: {
+        MobileNo: {
+          required: 'Enter your Mobile number'
+         
+        },
+        Password: {
+          required: 'Please Enter Password'
+        }
+
+      }
+    })
+  });
+
+     function password_show_hide() {
+  var x = document.getElementById("password");
+  var show_eye = document.getElementById("show_eye");
+  var hide_eye = document.getElementById("hide_eye");
+  hide_eye.classList.remove("d-none");
+  if (x.type === "password") {
+    x.type = "text";
+    show_eye.style.display = "none";
+    hide_eye.style.display = "block";
+  } else {
+    x.type = "password";
+    show_eye.style.display = "block";
+    hide_eye.style.display = "none";
+  }
+}
+
+
+</script>

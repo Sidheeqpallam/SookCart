@@ -1,0 +1,34 @@
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+
+<script>
+      $('button.a').click( function() {
+        $('form.a').submit();
+    });
+    $('button.b').click( function() {
+        $('form.b').submit();
+    });
+</script>
+
+
+
+
+
+
+<form action="/a" method="post" class="a" id="a">
+<input type="text" value="outside b " name="a">
+<form action="/b" method="post" class="b" id="b">
+<input type="text" value="inside b " name="b">
+
+<button type="submit" class="b" >b</button>
+</form>
+
+<button type="submit" class="a">a</button>
+
+
+
+
+</form>
+

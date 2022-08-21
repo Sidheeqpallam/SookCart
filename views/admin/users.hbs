@@ -1,0 +1,106 @@
+   
+<body>
+  <div class="container-fluid position-relative d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+      class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+    
+    {{>admin-sidebar}}
+
+ 
+
+
+    <div class="content">
+
+      {{>admin-nav}}
+
+
+
+      <div class="container-fluid pt-4 px-4">
+
+        <div class="row g-4">
+
+          <div class="col-sm-12 col-xl-12 " >
+            <div class="bg-secondary rounded vh-100 p-4">
+              <h6 class="mb-4">Users Table</h6>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Name</th>
+             
+                    <th scope="col">Email</th>     
+                      <th scope="col">Mobile Number</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each users}}
+<tr>
+                    <th class="creat_index" scope="row">{{add @index 1}}</th>
+                    <td>{{this.Name}}</td>          
+                    <td>{{this.Email}}</td>
+                    <td>{{this.MobileNo}}</td>
+                    <td></td>
+                    <td>
+                                               
+                            {{#if block}}
+                            <a href="/admin/unblockUser/{{this._id}}" class=" btn btn-sm btn-outline-success col btn m-2">Unblock</a>
+                            {{else}}
+                           <a href="/admin/blockUser/{{this._id}}" class=" btn btn-sm btn-outline-info col btn m-2">Block</a>
+                            {{/if}}
+
+                    </td>
+                    <td>
+                           <a   data-bs-toggle="modal" data-bs-target="#modalDeleteUser{{this._id}}" class="btn btn-sm btn-outline-danger m-2">Delete</a>
+
+                    </td>
+              
+                  </tr>
+{{!-- =================== Add Delete user modal start ========================= --}}
+<div class="modal fade" id="modalDeleteUser{{this._id}}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-secondary">
+      <div class="modal-header border-0">
+        <h5 class="modal-title text text-danger" id="exampleModalToggleLabel" >Delete User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body  border-0">
+       <h3>Would you like to remove {{this.Name}}</h3>
+      </div>
+      <div class="modal-footer  border-0">
+        <a href="/admin/deleteUser/{{this._id}}" class=" btn btn-sm btn-outline-danger  btn m-2">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+         {{!-- =================== Add Delete user modal end ========================= --}}
+
+
+                  {{/each}}
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+      <!-- Table End -->
+      {{>admin-foot}}
+    </div>
+  </div>
+
+
+
+</body>
+  

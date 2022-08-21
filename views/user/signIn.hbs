@@ -1,0 +1,106 @@
+
+
+<div class="container pt-3">
+  <div class="row">
+    <div class="col-md-5 mx-auto">
+      <div id="first">
+        <div class="myform form ">
+          <div class="logo mb-3">
+            <div class="col-md-12 text-center">
+              <div class="d-flex">
+                
+              </div>
+               <a href="/" class="text-decoration-none">
+                    <h2 class="m-0 display-5 font-weight-semi-bold">Sooc<span class="text-primary font-weight-bold border px-3 mr-1">Kart</span></h1>
+                </a>
+                <br>
+              <h1>Login</h1>
+            </div>
+          </div>
+          <form action="/signIn" method="post" name="login" id="myloginform">
+          <div class="text-danger">
+          {{#if blocked}}
+          Your Account is Blocked!
+          {{/if}}
+          </div>
+          <div class="text-danger">
+          {{#if valid}}
+          Invalid Credentials
+          {{/if}}
+          </div>
+
+          
+            <div class="form-group">
+              <label for="exampleInputEmail1"></label>
+              <input type="number" name="MobileNo" class="form-control" id="mobile" aria-describedby="emailHelp" value="8078858018"
+                placeholder="Mobile Number">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1"></label>
+              <input type="password" name="Password" id="password" class="form-control" aria-describedby="emailHelp" value="12345678"
+                placeholder="Enter Password">
+            </div>
+            <div class="col-md-12 text-center ">
+              <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm mt-4">Login</button>
+            </div>
+          </form>
+<hr class="hr-or col-12">
+          <div class="col-md-12 mt-3">
+            <div class="login-or col-12">
+              
+              <h4 class="col-12 text-center">login with otp</h4>
+              {{!-- <span class="span-or" >login with otp</span> --}}
+            </div>
+          </div>
+          <form action="/signInWithOtp" method="post" id="myotplogin">
+            <div class="form-group ">
+              <label for="exampleInputEmail1"></label>
+              <input type="text" name="MobileNo" id="mobile" class="form-control" aria-describedby="emailHelp"
+                placeholder="Enter Your Phone">
+            </div>
+            <div class="col-md-12 text-center ">
+              <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm mt-1 mb-2">Get OTP</button>
+            </div>
+          </form>
+          <div class="form-group">
+            <p class="text-center">Don't have account? <a href="/signUp" id="signup">Sign up here</a></p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<link rel="stylesheet" href="stylesheets/login.css" type="text/css">
+
+
+<script>
+
+  $(document).ready(function () {
+    $("#myloginform").validate({
+      rules: {
+        Password: {
+          required: true
+        },
+        MobileNo: {
+          number:true,
+          minlength:10,
+          maxlength:10,
+          required: true
+        }
+      }
+    })
+  })
+    $(document).ready(function () {
+    $("#myotplogin").validate({
+      rules: {
+        MobileNo:{
+          required:true,
+          number:true,
+          minlength:10,
+          maxlength:10
+        }
+      }
+    })
+  })
+</script>

@@ -1,0 +1,23 @@
+  <!-- Topbar Start -->
+    <div class="container-fluid">
+        
+        <div class="row align-items-center justify-content-between py-3 px-xl-5">
+            <div class="col-6  d-lg-block">
+                <a href="/" class="text-decoration-none">
+                    <h1 class="m-0 display-5 font-weight-semi-bold">Sooc<span class="text-primary font-weight-bold border px-3 mr-1">Kart</span></h1>
+                </a>
+            </div>
+            
+            <div class="col-6  text-right">
+                <a href="/wishlist" class="btn border">
+                    <i class="fas fa-heart text-primary"></i>
+                    <span class="badge" id="wishCount">{{#if wishCount}}{{wishCount.0.products.length}}{{else}}0{{/if}}</span>
+                </a>
+                <a href="/cart" class="btn border">
+                    <i class="fas fa-shopping-cart text-primary"></i>
+                    <span class="badge" id="cartCount">{{#if cartCount}}{{cartCount}}{{else}}0{{/if}}</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->

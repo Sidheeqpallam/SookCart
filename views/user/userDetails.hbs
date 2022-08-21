@@ -1,0 +1,146 @@
+{{#with user}}
+<div class="container-fluid pt-5">
+<div class="row px-xl-5">
+  <div class="profile-nav col-md-3">
+      <div class="panel">
+          <div class="user-heading round">
+              <a href="#">
+                  <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
+              </a>
+              <h1>{{Name}}</h1>
+              <p>{{Email}}</p>
+              <p>{{MobileNo}}</p>
+          </div>
+
+
+      </div>
+  </div>
+  {{/with}}
+  <div class="profile-info col-md-9">
+      
+      <div class="panel">
+          
+          <div class="panel-body bio-graph-info">
+            
+              
+              <div class="row">
+                    {{#each address}}
+                    <div class="col-sm-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="col-12 row d-flex">
+
+                                    <p>
+                                        <b>Full Name:</b> {{this.name}} <br>
+                                         
+                                        <b> Address1:</b> {{this.address1}}<br>
+                                        <b>Mobile No:</b> {{this.number}}<br>
+                                       
+                                        <b> Post:</b> {{this.address2}}<br>
+                                        <b>Pincode:</b> {{this.pinCode}}<br>
+                                        <b> District:</b> {{this.district}}<br>
+                                        <b> State:</b> {{this.state}}<br>
+                                    </p>
+                                    <div class="row ">
+                                        {{!-- modal --}}
+                                        <div class="col-6">
+                                            <a class="  btn btn-outline-primary text-center  " onclick="swal('The features will shortly be implemented!')">
+                                                Edit
+                                            </a>
+                                        </div>
+                                        <div class="col-6">
+                                            <button onclick="swal('The features will shortly be implemented!')"
+                                                class="  btn btn-outline-danger text-center ">
+                                                Delete
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {{/each}}
+                </div>
+              <div class="text-center" >
+                <button class="btn btn-primary " onclick="swal('The features will shortly be implemented!')">Update Profile</button>
+                <a href="/orders" class="btn btn-primary " >Previes Orders</a>
+              </div>
+              
+          </div>
+      </div>
+      
+  </div>
+</div>
+</div>
+
+
+<style>
+    body {
+    color: #797979;
+    background: #fff;
+}
+
+.profile-nav, .profile-info{
+    margin-top:30px;   
+}
+
+.profile-nav .user-heading {
+    background: #d19c97b8;
+    color: #fff;
+    border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    padding: 30px;
+    text-align: center;
+}
+
+.profile-nav .user-heading.round a  {
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border: 10px solid rgba(255,255,255,0.3);
+    display: inline-block;
+}
+
+.profile-nav .user-heading a img {
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+}
+
+
+
+.profile-info .panel-footer {
+    background-color:#f8f7f5 ;
+    border-top: 1px solid #e7ebee;
+}
+
+
+
+.bio-graph-heading {
+    background: #d19c97b8;
+    color: #fff;
+    text-align: center;
+    font-style: italic;
+    padding: 40px 110px;
+    border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.bio-graph-info {
+    color: #89817e;
+}
+
+
+.bio-row {
+    width: 50%;
+    float: left;
+    margin-bottom: 10px;
+    padding:0 15px;
+}
+
+
+
+</style>
