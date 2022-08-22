@@ -80,7 +80,7 @@ db.connect((err)=>{
 const userHelpers = require('./helpers/user-helpers')
 const isBlocked = function (req, res, next) {
   if(req.session.user){
-     userHelpers.isBlocked(req.session.user).then((no) => {
+     userHelpers.isBlocked(req.session.user._id).then((no) => {
     next()
   }).catch((yes)=>{
     req.session.user = null;

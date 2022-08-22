@@ -4,9 +4,9 @@ const bcrypt = require("bcrypt");
 const objectId = require("mongodb").ObjectId;
 
 module.exports = {
-  isBlocked : (user)=>{
+  isBlocked : (userId)=>{
     return new Promise((resolve, reject)=>{
-      db.get().collection(collection.USER_COLLECTION).findOne({_id: objectId(user._id)}).then((status)=>{
+      db.get().collection(collection.USER_COLLECTION).findOne({_id: objectId(userId)}).then((status)=>{
         if(status.block){
           reject()
         }else{
