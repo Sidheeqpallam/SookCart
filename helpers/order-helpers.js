@@ -127,6 +127,105 @@ module.exports = {
             resolve(sale)
         })
         
+    },
+    getSaleReport : ()=>{
+      return new Promise(async(resolve, reject)=>{
+        const data = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+          {
+            '$unwind': {
+              'path': '$cart'
+            }
+          }, {
+            '$set': {
+              'user': {
+                '$toObjectId': '$user'
+              }
+            }
+          }, {
+            '$lookup': {
+              'from': 'user', 
+              'localField': 'user', 
+              'foreignField': '_id', 
+              'as': 'user'
+            }
+          }, {
+            '$unwind': {
+              'path': '$user'
+            }
+          }, {
+            '$project': {
+              '_id': 0, 
+              'Product_id': '$cart.product.id', 
+              'Product_Name': '$cart.productDetails.Name', 
+              'Category': '$cart.productDetails.Category', 
+              'Customer_id': '$user._id', 
+              'Customer': '$user.Name', 
+              'Price': {
+                '$subtract': [
+                  {
+                    '$toInt': '$cart.productDetails.Price'
+                  }, {
+                    '$multiply': [
+                      {
+                        '$toInt': '$cart.productDetails.Price'
+                      }, {
+                        '$divide': [
+                          18, 100
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }, 
+              'Tax_rate': '18', 
+              'Tax': {
+                '$multiply': [
+                  {
+                    '$toInt': '$cart.productDetails.Price'
+                  }, {
+                    '$divide': [
+                      18, 100
+                    ]
+                  }
+                ]
+              }, 
+              'Total': '$cart.productDetails.Price', 
+              'Discount_rate': '$cart.productDetails.Discount', 
+              'Discount': {
+                '$multiply': [
+                  {
+                    '$toInt': '$cart.productDetails.Discount'
+                  }, {
+                    '$divide': [
+                      {
+                        '$toInt': '$cart.productDetails.Price'
+                      }, 100
+                    ]
+                  }
+                ]
+              }, 
+              'Discount_Price': '$cart.productDetails.DiscountPrice', 
+              'Coupon': '$coupon.Percentage', 
+              'Coupon_Discount': {
+                '$multiply': [
+                  {
+                    '$toInt': '$cart.productDetails.DiscountPrice'
+                  }, {
+                    '$divide': [
+                      {
+                        '$toInt': '$coupon.Percentage'
+                      }, 100
+                    ]
+                  }
+                ]
+              }, 
+              'Quantity': '$cart.product.quantity', 
+              'Grand_Total': '$cart.totalAmount'
+            }
+          }
+        ]).toArray()
+        resolve(data)
+      })
     }
 
 }
