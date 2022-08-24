@@ -35,7 +35,8 @@ const dashboardDatas = async()=>{
    }
    // split date and time
    const now = new Date()
-   const today = now.toLocaleDateString();
+   const today = now.toLocaleDateString('en-GB');
+
    for(i of allOrder){
     if(i.date == today){
       for(j of i.cart){
@@ -77,7 +78,7 @@ const productReport = async ()=>{
 router.get('/', async function(req, res) {
   if(req.session.admin){
     const data = await dashboardDatas();
-    console.log(data, 'sdfs');
+
     res.render('admin/index' , {dashboard : true, title: 'Admin',adminTemplate: true, data});
   }else if (req.session.invalid) {
     res.render('admin/signIn', {adminTemplate : true, invalid : true})

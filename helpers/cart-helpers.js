@@ -215,7 +215,7 @@ cartHelper = {
     }
     // split date and time
     let now = new Date()
-    let date = now.toLocaleDateString();
+    let date = now.toLocaleDateString('en-GB');
     let time = now.toLocaleTimeString();
     return new Promise((resolve, reject) => {
       db.get()
