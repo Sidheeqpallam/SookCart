@@ -46,51 +46,60 @@ module.exports = {
             const data = await db.get().collection(collection.ORDER_COLLECTION).aggregate(
                 [
                     {
-                        "$unwind" : {
-                            "path" : "$cart"
+                      '$unwind': {
+                        'path': '$cart'
+                      }
+                    }, {
+                      '$group': {
+                        '_id': '$date', 
+                        'total': {
+                          '$sum': '$cart.totalAmount'
                         }
-                    }, 
-                    {
-                        "$group" : {
-                            "_id" : "$date",
-                            "total" : {
-                                "$sum" : "$cart.totalAmount"
-                            }
+                      }
+                    }, {
+                      '$group': {
+                        '_id': null, 
+                        'data': {
+                          '$push': {
+                            'date': '$_id', 
+                            'total': '$total'
+                          }
                         }
-                    }, 
-                    {
-                        "$group" : {
-                            "_id" : null,
-                            "data" : {
-                                "$push" : {
-                                    "date" : "$_id",
-                                    "total" : "$total"
-                                }
-                            }
+                      }
+                    }, {
+                      '$unwind': {
+                        'path': '$data'
+                      }
+                    }, {
+                      '$sort': {
+                        'data.date': 1
+                      }
+                    }, {
+                      '$group': {
+                        '_id': '$_id', 
+                        'data': {
+                          '$push': '$data'
                         }
-                    }, 
-                    {
-                        "$project" : {
-                            "data" : 1.0,
-                            "_id" : 0.0
-                        }
+                      }
+                    }, {
+                      '$project': {
+                        '_id': 0, 
+                        'data': 1
+                      }
                     }
-                ], 
-                {
-                    "allowDiskUse" : false
-                }
+                  ]
             ).toArray()
-            function CreateDate(dateString) {
-                var arr = dateString.split('/');
-                return new Date(arr[2] , arr[1], arr[0]);
-            }
+            // function CreateDate(dateString) {
+            //     var arr = dateString.split('/');
+            //     return new Date(arr[2] , arr[1], arr[0]);
+            // }
             
-            function sortRecords(records) {    
-                var sorted = records.sort(function (a, b) {        
-                    return CreateDate(a.date) > CreateDate(b.date);
-                });
-            }
-            sortRecords(data[0].data)
+            // function sortRecords(records) {    
+            //     var sorted = records.sort(function (a, b) {        //this function is not working on my server side. so I move to alernate.
+            //         return CreateDate(a.date) > CreateDate(b.date);
+            //     });
+            // }
+            // sortRecords(data[0].data)
             resolve(data[0].data)
         })
     },
