@@ -146,74 +146,10 @@
             </div>
             <div class="row invoice ">
                
-                <button class="btn btn-primary" onclick="swal('The features will shortly be implemented!')"
-                 {{!-- onclick="//downloadInvoice('{{order}}')" --}}
-                 >Download Invoice</button>
+                <a class="btn btn-primary" href="/invoice/{{order._id}}"
+                 
+                 >See Invoice</a>
             </div>
         </div>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/easyinvoice/dist/easyinvoice.min.js"></script>
-
-
-<script>
-    const downloadInvoice = function (order) {
-            console.log(order)
-        var data = {
-            //"documentTitle": "RECEIPT", //Defaults to INVOICE
-            "currency": "USD",
-            "taxNotation": "vat", //or gst
-            "marginTop": 25,
-            "marginRight": 25,
-            "marginLeft": 25,
-            "marginBottom": 25,
-            "logo": "https://www.easyinvoice.cloud/img/logo.png", //or base64
-            //"logoExtension": "png", //only when logo is base64
-            "sender": {
-                "company": "SookCart",
-                "address": "123 Thrissur,Kerala,India",
-                "zip": "676532",
-                "city": "Thrissur",
-                "country": "India"
-                //"custom1": "custom value 1",
-                //"custom2": "custom value 2",
-                //"custom3": "custom value 3"
-            },
-            "client": {
-                "Company": "address.name",
-                // "Address": order.deliveryDetails.address1,
-                //"Address": order.deliveryDetails.address2,
-               // "District": order.deliveryDetails.district,
-               // "State": order.deliveryDetails.state,
-               // "Country": order.deliveryDetails.country,
-               // "Pin-Code": order.deliveryDetails.pinCode,
-            },
-            "invoiceNumber": "2020.0001",
-            "invoiceDate": "05-01-2020",
-            "products": [
-                {
-                   // "Product": order.orderItems.product.name,
-                    //"quantity": order.orderItems.quantity,
-                    "description": "Test1",
-                    "tax": 6,
-                    "price": 33.87
-                },
-                {
-                    "quantity": "4",
-                    "description": "Test2",
-                    "tax": 21,
-                    "price": 10.45
-                }
-            ],
-            "bottomNotice": "Kindly pay your invoice within 15 days."
-        };
-    easyinvoice.createInvoice(data, function (result) {
-        // The response will contain a base64 encoded PDF file
-      console.log('PDF base64 string: ', result.pdf);
-        
-     easyinvoice.download('myInvoice.pdf', result.pdf);
-
-          });
-    }
-</script>-

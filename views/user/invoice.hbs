@@ -1,0 +1,143 @@
+  <!-- Topbar Start -->
+    <div class="container-fluid">
+        
+        <div class="row align-items-center justify-content-between py-3 px-xl-5">
+            <div class="col-6  d-lg-block">
+                <a href="/" class="text-decoration-none">
+                    <h1 class="m-0 display-5 font-weight-semi-bold">Sooc<span class="text-primary font-weight-bold border px-3 mr-1">Kart</span></h1>
+                </a>
+            </div>
+            
+            <div class="col-6  text-right">
+                <button class="btn btn-primary" onclick="downloadInvoice()">Download Invoice</button>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+{{>user-nav}}
+<div class="container" id="invoice">
+    <div class="card">
+        <div class="card-header">
+            Invoice
+            <strong>{{Order._id}}</strong>
+            <span class="float-right"> <strong>Status:</strong> Pending</span>
+
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-sm-6">
+                    <h6 class="mb-3">From:</h6>
+                    <div>
+                        <strong>SookCart</strong>
+                    </div>
+                    <div>123 Trissur, KERALA, INDIA</div>
+                    <div>Email: soockart@gmail.com</div>
+                    <div>Phone: +90 80788 58018</div>
+                </div>
+
+                <div class="col-sm-6">
+                    <h6 class="mb-3">To:</h6>
+                    <div>
+                        <strong>{{user.Name}}</strong>
+                    </div>
+                    {{#with address}}
+                    <div>{{address1}}</div>
+                    <div>{{address2}}</div>
+                    <div>{{district}}</div>
+                    <div>{{pinCode}}</div>{{/with}}
+                    <div>Email: {{user.Email}}</div>
+                    <div>Phone: {{user.MobileNo}}</div>
+                    
+                </div>
+
+
+
+            </div>
+
+            <div class="table-responsive-sm">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="center">#</th>
+                            <th>Item</th>
+                            <th>Description</th>
+
+                            <th class="right">Unit Cost</th>
+                            <th class="center">Qty</th>
+                            <th class="right">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#with Order}} 
+                         {{#each cart}}
+                        <tr>
+                            
+                          
+                            <td class="center">{{add @index 1}}</td>
+                            <td class="left strong">{{this.productDetails.Name}}</td>
+                            <td class="left">{{this.productDetails.Discription}}</td>
+
+                            <td class="right">Rs. {{this.productDetails.DiscountPrice}}</td>
+                            <td class="center">{{this.product.quantity}}</td>
+                            <td class="right">Rs.{{multiply this.productDetails.DiscountPrice this.product.quantity}}</td>
+                            
+                           
+                        </tr>
+                         {{/each}}
+                            {{/with}}
+                       
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-sm-5">
+
+                </div>
+
+                <div class="col-lg-4 col-sm-5 ml-auto">
+                    <table class="table table-clear">
+                        <tbody>
+                            <tr>
+                                <td class="left">
+                                    <strong>Subtotal</strong>
+                                </td>
+                                <td class="right">Rs. {{subTotal}}</td>
+                            </tr>
+                            <tr>
+                                <td class="left">
+                                    <strong>Coupon</strong>
+                                </td>
+                                <td class="right">Rs. {{#if coupon}}{{discount subTotal coupon.Percentage}} {{else}}00{{/if}} </td>
+                            </tr>
+                           
+                            <tr>
+                                <td class="left">
+                                    <strong>Total</strong>
+                                </td>
+                                <td class="right">
+                                    <strong>Rs. {{parseInt total}}</strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+    <div class="card-footer text-center">
+      
+    SookCart Thanks You For Your Purchase
+  </div>
+
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.1/html2pdf.bundle.min.js"></script>
+<script>
+    function downloadInvoice(){
+        const element = document.getElementById('invoice');
+        html2pdf().from(element).save()
+    }
+</script>
