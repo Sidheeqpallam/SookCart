@@ -407,6 +407,31 @@ router.get("/orders", verifyLogin, async (req, res) => {
   });
 });
 
+router.get('/invoice/:id', verifyLogin,(req, res)=>{
+  req.session.invoiceId = req.params.id;
+  res.redirect('/invoice')
+})
+
+router.get('/invoice', verifyLogin, async(req, res)=>{
+  const order = await orderHelpers.getAnOrder(req.session.invoiceId)
+  const address = await userHelpers.getAddress(req.session.user._id)
+  let subTotal = 0;
+  let total = 0;
+  for(i of order.cart){
+    subTotal = subTotal + (i.product.quantity * i.productDetails.DiscountPrice);
+    total = total + i.totalAmount
+  }
+  res.render('user/invoice',{
+    user : req.session.user,
+    userTemplate: true,
+    Order : order,//make the variable's first letter capital for avoid the active attribute of nav item order
+    total,
+    subTotal,
+    coupon : order.coupon,
+    address: address.Address[order.addressIndex]
+  })
+})
+
 router.post("/verifyPayment", (req, res) => {
   cartHelpers.verifyPayment(req.body).then(() => {
     res.json({ status: true });

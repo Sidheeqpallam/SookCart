@@ -73,20 +73,24 @@ const productReport = async ()=>{
   return {product :categoryWiseProduct, sales:  categoryWiseSales}
 }
 
+router.get('/getSalesReport', (req, res)=>{
+  orderHelpers.getSaleReport().then(report =>{
+    res.json(report)
+  })
+})
+
 
 /* GET ADMIN HOME. */
 router.get('/', async function(req, res) {
   if(req.session.admin){
     const data = await dashboardDatas();
-
     res.render('admin/index' , {dashboard : true, title: 'Admin',adminTemplate: true, data});
   }else if (req.session.invalid) {
     res.render('admin/signIn', {adminTemplate : true, invalid : true})
     req.session.invalid = false;
   }else{
     res.render('admin/signIn', {adminTemplate: true})
-  
-  }
+    }
 });
 
 

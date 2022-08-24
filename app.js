@@ -39,6 +39,8 @@ app.engine('hbs', hbs.engine({extname: 'hbs',
               return oPrice - (oPrice / 100 * discount)
             },
             discount : (oPrice, discount)=>{
+              oPrice = parseInt(oPrice)
+              discount = parseInt(discount)
               return oPrice / 100 * discount;
             },
             parseInt : (string)=>{
@@ -49,7 +51,13 @@ app.engine('hbs', hbs.engine({extname: 'hbs',
                 return options.fn(this)
               }
               return options.inverse(this)
+            },
+            multiply : (a, b)=>{
+              a = parseInt(a);
+              b = parseInt(b)
+              return a*b
             }
+             
           },
           handlebars: allowInsecurePrototypeAccess(Handlebars)}))
 
@@ -80,7 +88,7 @@ db.connect((err)=>{
 const userHelpers = require('./helpers/user-helpers')
 const isBlocked = function (req, res, next) {
   if(req.session.user){
-     userHelpers.isBlocked(req.session.user).then((no) => {
+     userHelpers.isBlocked(req.session.user._id).then((no) => {
     next()
   }).catch((yes)=>{
     req.session.user = null;
