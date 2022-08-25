@@ -36,7 +36,6 @@ const dashboardDatas = async()=>{
    // split date and time
    const now = new Date()
    const today = now.toLocaleDateString('en-GB');
-
    for(i of allOrder){
     if(i.date == today){
       for(j of i.cart){
