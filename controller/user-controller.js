@@ -1,6 +1,5 @@
 const userHelpers = require("../helpers/user-helpers");
 const authOtp = require('../authentication/otpVerify');
-const { isBlocked } = require("../helpers/user-helpers");
 
 
 

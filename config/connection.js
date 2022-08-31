@@ -1,4 +1,5 @@
 const MongoClient = require('mongodb').MongoClient
+const env = require('dotenv').config()
 const state = {
     db: null
 }

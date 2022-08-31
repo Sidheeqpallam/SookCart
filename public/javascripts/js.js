@@ -4,7 +4,6 @@ function addToCart(proid, userId) {
   if (userId) {
     axios.post("/addToCart/" + proid, { user: userId }).then((res) => {
       if (res.status == 200) {
-        console.log(res);
         cartCount.innerHTML = res.data.cartCount[0].count;
       }
     });
@@ -14,7 +13,6 @@ function addToCart(proid, userId) {
 }
 
 function deleteCartItem(proId) {
-  console.log(proId);
   axios.get(`/deleteCartItem/${proId}`).then(async (res) => {
     await console.log(res);
     window.location.reload();
@@ -52,15 +50,11 @@ function addToWishList(proId) {
           wishCount.innerHTML = parseInt(wishCount.innerHTML) + 1;
 
     }
-    console.log(e);
   });
 }
 
 function deleteFromWish(proId){
   axios.get('deleteFromWish/'+proId).then(e =>{
-
-    console.log(e);
-    
     location.reload()
   })
 }

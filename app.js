@@ -8,8 +8,6 @@ const Handlebars = require('handlebars')
 const db = require('./config/connection')
 const session = require('express-session');
 const nocache = require('nocache');
-// const fileUpload = require('express-fileupload')
-// const mongoose = require('mongoose');
 const bodyParser = require('body-parser')
 
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
@@ -67,13 +65,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 const MemoryStore = session.MemoryStore;
+const oneDay = 1000 * 60 * 60 * 24 ;
 app.use(session({
   name: 'app.sid',
   secret: '1234567890QWERTY',
   resave: true,
   store: new MemoryStore(),
   saveUninitialized: true,
-  cookie: {maxAge: 600000}
+  cookie: {maxAge: oneDay}
 }));
 
 

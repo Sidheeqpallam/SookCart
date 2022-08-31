@@ -14,20 +14,7 @@ const couponHelpers = require("../helpers/coupon-helpers");
 const wishlistHelpers = require("../helpers/wish-helpers");
 const subscribeHelpers = require('../helpers/subscibe-helpers')
 
-// const isBlocked = function (req, res, next) {
-//   if(req.session.user){
-//      userHelpers.isBlocked(req.session.user).then((no) => {
-//     next()
-//   }).catch((yes)=>{
-//     req.session.userBlocked = true;
-//     res.redirect("/signIn");
-//     console.log("user Blocked");
-//   })
-//   }else{
-//     next()
-//   }
 
-// };
 const verifyLogin = (req, res, next) => {
   if (req.session.user) {
     next();
