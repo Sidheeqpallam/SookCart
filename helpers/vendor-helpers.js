@@ -7,17 +7,6 @@ const { response } = require("express");
 // const vendorModel = require("../models/vendor-model");
 
 module.exports = {
-  isBlocked : (vendor)=>{
-    return new Promise((resolve, reject)=>{
-      db.get().collection(collection.VENDOR_COLLECTION).findOne({_id: objectId(vendor._id)}).then((status)=>{
-        if(vendor.block){
-          resolve(status)
-        }else{
-          reject()
-        }
-      })
-    })
-  },
   checkVendorExist: (data) => {
     return new Promise((resolve, reject) => {
         db.get().collection(collection.VENDOR_COLLECTION).findOne({MobileNo: data.MobileNo}).then((response)=>{

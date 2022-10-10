@@ -38,6 +38,7 @@ module.exports = {
       MobileNo : userData.MobileNo,
       Email : userData.Email,
       Password : userData.Password,
+      block : false
     }).then((data) => {
         resolve(data);
       });
@@ -100,13 +101,11 @@ module.exports = {
         })
     })
   },
-  editUser : (newData)=>{
+  editUser : (userId, newData)=>{
+    const { Fname, Lname, Email, MobileNo } = newData;
     return new Promise((resolve, reject)=>{
-      db.get().collection(collection.USER_COLLECTION).updateOne({_id: objectId(newData.params.id)},{$set:{
-        Fname : newData.body.Fname,
-        Lname : newData.body.Lname,
-        Email : newData.body.Email,
-        MobileNo : newData.body.MobileNo
+      db.get().collection(collection.USER_COLLECTION).updateOne({_id: objectId(userId)},{$set:{
+        Fname, Lname, Email, MobileNo
       }}).then((response)=>{
         resolve(response)
       })

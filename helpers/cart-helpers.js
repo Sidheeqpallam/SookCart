@@ -2,6 +2,8 @@ const db = require("../config/connection");
 const collection = require("../config/collection");
 const objectId = require("mongodb").ObjectId;
 const Razorpay = require("razorpay");
+const crypto = require('crypto');
+
 
 
 const env = require('dotenv').config()
@@ -271,7 +273,6 @@ cartHelper = {
   },
   verifyPayment : (details)=>{
     return new Promise(async(resolve, reject)=>{
-      const crypto = require('crypto');
       let hmac =  crypto.createHmac('sha256', 'tfujWQpZzTYHiVrJDfwnbwWo');
       hmac.update( details.payment.razorpay_order_id + '|' + details.payment.razorpay_payment_id);
       hmac = hmac.digest('hex');
