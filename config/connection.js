@@ -1,20 +1,20 @@
-const MongoClient = require('mongodb').MongoClient
-const env = require('dotenv').config()
+const MongoClient = require("mongodb").MongoClient;
+require("dotenv").config();
 const state = {
-    db: null
-}
+  db: null,
+};
 
-module.exports.connect = (done)=>{
-    const url = `mongodb+srv://sidheeq:${process.env.MONGODB_ATLES_PASSWORD}@cluster0.jrifige.mongodb.net/?retryWrites=true&w=majority`;
-    const dbname = 'SookCart';
+module.exports.connect = (done) => {
+  const url = process.env.MONGO_URL;
+  const dbname = process.env.DB_NAME;
 
-    MongoClient.connect(url, (err, data)=>{
-        if(err) return done(err);
-        state.db = data.db(dbname);
-        done()
-    })
-}
+  MongoClient.connect(url, (err, data) => {
+    if (err) return done(err);
+    state.db = data.db(dbname);
+    done();
+  });
+};
 
-module.exports.get = ()=>{
-    return state.db;
-}
+module.exports.get = () => {
+  return state.db;
+};
