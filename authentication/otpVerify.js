@@ -9,33 +9,33 @@ const config = {
 };
 
 
-const client = require("twilio")(config.accountSID, config.authToken);
+// const client = require("twilio")(config.accountSID, config.authToken);
 
 module.exports = {
   getOtp: (number) => {
-    console.log(number);
-
     number = "+91" + number;
 
     return new Promise((resolve, reject) => {
-      client.verify.v2
-        .services(config.serviceID)
-        .verifications.create({ to: number, channel: "sms" })
-        .then((response) => {
-          console.log(response);
-          resolve(response);
-          console.log("promise done");
-        });
+      // client.verify.v2
+      //   .services(config.serviceID)
+      //   .verifications.create({ to: number, channel: "sms" })
+      //   .then((response) => {
+      //     console.log(response);
+      //     resolve(response);
+      //     console.log("promise done");
+      //   });
+      resolve(true)
     });
   },
   checkOtp: (otp, number) => {
     number = "+91" + number;
 
     return new Promise((resolve, reject) => {
-      client.verify.v2.services(config.serviceID).verificationChecks.create({ to: number, code: otp }).then((verification_check) => {
-          console.log(verification_check.status);
-          resolve(verification_check.status);
-        });
+      // client.verify.v2.services(config.serviceID).verificationChecks.create({ to: number, code: otp }).then((verification_check) => {
+      //   console.log(verification_check.status);
+      //   resolve(verification_check.status);
+      // });
+      resolve(true)
     });
   },
 };

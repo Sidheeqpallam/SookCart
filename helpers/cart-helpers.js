@@ -7,10 +7,10 @@ const crypto = require('crypto');
 
 
 const env = require('dotenv').config()
-const instance = new Razorpay({
-  key_id: process.env.RAZOR_PAY_KEY_ID,
-  key_secret: process.env.RAZOR_PAY_KEY_SECRET
-});
+// const instance = new Razorpay({
+//   key_id: process.env.RAZOR_PAY_KEY_ID,
+//   key_secret: process.env.RAZOR_PAY_KEY_SECRET
+// });
 
 cartHelper = {
   addToCart: (userId, proId) => {
@@ -129,7 +129,7 @@ cartHelper = {
         });
     });
   },
-  deleteCartFromAllUsers: ( proId) => {
+  deleteCartFromAllUsers: (proId) => {
     return new Promise((resolve, reject) => {
       db.get()
         .collection(collection.CART_COLLECTION)
@@ -192,7 +192,7 @@ cartHelper = {
           .get()
           .collection(collection.PRODUCT_COLLECTION)
           .findOne({ _id: objectId(i.product.id) });
-          console.log(3);
+        console.log(3);
       }
       console.log(total);
       for (i of total) {
@@ -205,15 +205,15 @@ cartHelper = {
   placeOrder: async (data, user) => {
     let cart = await cartHelper.getCart(user._id);
     let coupon = null;
-    if(user.coupon){
+    if (user.coupon) {
       coupon = user.coupon
-      for(i of cart){
-        i.totalAmount = i.totalAmount - (i.totalAmount / 100 * parseInt(user.coupon.Percentage) )
+      for (i of cart) {
+        i.totalAmount = i.totalAmount - (i.totalAmount / 100 * parseInt(user.coupon.Percentage))
       }
     }
     let status = null;
-    if(data.paymentMethod == 'COD'){
-     status = 'placed'
+    if (data.paymentMethod == 'COD') {
+      status = 'placed'
     }
     // split date and time
     let now = new Date()
@@ -225,15 +225,15 @@ cartHelper = {
         .insertOne({
           user: user._id,
           cart: cart,
-          addressIndex: parseInt(data.address) ,
+          addressIndex: parseInt(data.address),
           paymentMethod: data.paymentMethod,
-          coupon : coupon,
-          status : status,
-          date : date,
-          time : time
+          coupon: coupon,
+          status: status,
+          date: date,
+          time: time
         })
         .then((res) => {
-          
+
           resolve(res);
         });
     });
@@ -248,9 +248,9 @@ cartHelper = {
         });
     });
   },
-  deleteCartByUserId : (userId)=>{
-    return new Promise((resolve, reject)=>{
-      db.get().collection(collection.CART_COLLECTION).updateOne({user : userId },{$set: {product: []}}).then((res)=>{
+  deleteCartByUserId: (userId) => {
+    return new Promise((resolve, reject) => {
+      db.get().collection(collection.CART_COLLECTION).updateOne({ user: userId }, { $set: { product: [] } }).then((res) => {
         resolve()
       })
     })
@@ -259,27 +259,28 @@ cartHelper = {
     return new Promise((resolve, reject) => {
       let totalAmount = 0;
       for (i of Order.cart) {
-        totalAmount =  totalAmount + i.totalAmount // (i.productDetails.DiscountPrice * i.product.quantity);
+        totalAmount = totalAmount + i.totalAmount // (i.productDetails.DiscountPrice * i.product.quantity);
       }
       var options = {
         amount: totalAmount * 100, // amount in the smallest currency unit
         currency: "INR",
-        receipt: ''+Order._id,
+        receipt: '' + Order._id,
       };
-      instance.orders.create(options, function (err, order) {
-        resolve(order);
-      });
+      // instance.orders.create(options, function (err, order) {
+      //   resolve(order);
+      // });
+      resolve(true)
     });
   },
-  verifyPayment : (details)=>{
-    return new Promise(async(resolve, reject)=>{
-      let hmac =  crypto.createHmac('sha256', 'tfujWQpZzTYHiVrJDfwnbwWo');
-      hmac.update( details.payment.razorpay_order_id + '|' + details.payment.razorpay_payment_id);
+  verifyPayment: (details) => {
+    return new Promise(async (resolve, reject) => {
+      let hmac = crypto.createHmac('sha256', 'tfujWQpZzTYHiVrJDfwnbwWo');
+      hmac.update(details.payment.razorpay_order_id + '|' + details.payment.razorpay_payment_id);
       hmac = hmac.digest('hex');
 
-      if(hmac == details.payment.razorpay_signature){  
-        resolve()                                    
-      }else{                                         
+      if (hmac == details.payment.razorpay_signature) {
+        resolve()
+      } else {
         reject()
       }
     })
